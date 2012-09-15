@@ -24,7 +24,6 @@ mysql_host: localhost
 
 # apache
 apache_mod_security_release: modsecurity-crs_2.2.5
-apache_mod_scurity_download_url: http://downloads.sourceforge.net/project/mod-security/modsecurity-crs/0-CURRENT/modsecurity-crs_2.2.5.tar.gz
 
 # fail2ban
 fail2ban_log_level: 3

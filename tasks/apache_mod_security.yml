@@ -19,11 +19,11 @@
    notify:
     - restart apache
         
- - name: download OWSAP rule set from sourceforge
-   action: get_url url=${apache_mod_scurity_download_url} dest=/etc/apache2/ 
+ - name: Copy OWSAP rule set from sourceforge
+   action: copy src=../files/${apache_mod_security_release}.tar.gz dest=/var/tmp/${apache_mod_security_release}.tar.gz 
    
  - name: uncompress the rule-set
-   action: command sudo /bin/tar xzf /etc/apache2/${apache_mod_security_release}.tar.gz chdir=/etc/apache2/
+   action: command sudo /bin/tar xz -f /var/tmp/${apache_mod_security_release}.tar.gz -C /etc/apache2/ 
  
  - name: remove existing ruleset directory
    action: command rm -rf /etc/apache2/modsecurity-crs

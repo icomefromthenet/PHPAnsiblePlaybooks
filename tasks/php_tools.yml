@@ -18,7 +18,6 @@
  - name: install phing
    action: command /usr/bin/pear install phing/phing
    ignore_errors: True
-
    
  - name: install pear git plugin
    action: command /usr/bin/pear -d preferred_state=alpha install VersionControl_Git
@@ -33,9 +32,9 @@
    ignore_errors: True
    
  - name: install icomefromthenet/Faker
-   action: command /usr/bin/pear install -d preferred_state=stable icomefromthenet/Faker
+   action: command /usr/bin/pear -d preferred_state=stable install icomefromthenet/Faker
    ignore_errors: True
    
  - name: install icomefromthenet/Migrations
-   action: command /usr/bin/pear install -d preferred_state=stable icomefromthenet/Migration
+   action: command /usr/bin/pear -d preferred_state=stable install icomefromthenet/Migration
    ignore_errors: True
