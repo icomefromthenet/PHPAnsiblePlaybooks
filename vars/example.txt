@@ -17,7 +17,7 @@ php_date_timezone: Australia/Sydney
 mysql_bind_address: "127.0.0.1" 
 mysql_key_buffer: "16M"
 mysql_max_allowed_packet : "16M"
-mysql_schema: accounting
+mysql_schema: mass_stack
 mysql_password: vagrant 
 mysql_user: root
 mysql_host: localhost
