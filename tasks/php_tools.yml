@@ -31,10 +31,3 @@
    action: get_url url=http://pear2.php.net/pyrus.phar dest=/usr/bin/pyrus.phar mode=0755
    ignore_errors: True
    
- - name: install icomefromthenet/Faker
-   action: command /usr/bin/pear -d preferred_state=stable install icomefromthenet/Faker
-   ignore_errors: True
-   
- - name: install icomefromthenet/Migrations
-   action: command /usr/bin/pear -d preferred_state=stable install icomefromthenet/Migration
-   ignore_errors: True
