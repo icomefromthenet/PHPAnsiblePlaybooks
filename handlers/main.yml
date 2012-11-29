@@ -7,5 +7,5 @@
    action: service name=mysql state=restarted
    
  - name: restart fail2ban
-   action: service name=fail2ban-server state=restarted
+   action: command /etc/init.d/fail2ban restart
    

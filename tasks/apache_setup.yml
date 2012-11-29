@@ -1,33 +1,53 @@
 ---
-# Tasks used to setup apache
+ ##
+ # Apache2 setup.
+ #
+
  - name: package update
    action: apt update-cache=yes
  
- - name: install python-software-properties
-   action: apt pkg=python-software-properties state=installed
-   
- - name: install apache 
+ - name: Apache | Install 
    action: apt pkg=apache2 state=installed
    notify:
     - restart apache
     
- - name: copy apache2.conf config file
+ - name: Apache | Copy apache2.conf config file
    action: template src=../templates/apache2.conf.j2 dest=/etc/apache2/apache2.conf state=file mode=0644
    notify:
     - restart apache
    
- - name: copy envvars config file
+ - name: Apache | Copy envvars config file
    action: template src=../templates/envvars.j2 dest=/etc/apache2/envvars state=file mode=0644
    notify:
     - restart apache
   
- - name: copy httpd.conf config file
+ - name: Apache | Copy httpd.conf config file
    action: template src=../templates/httpd.conf.j2 dest=/etc/apache2/httpd.conf state=file mode=0644
    notify:
     - restart apache
      
- - name: copy ports.conf config file
+ - name: Apache | Copy ports.conf config file
    action: template src=../templates/ports.conf.j2 dest=/etc/apache2/ports.conf state=file mode=0644
    notify:
     - restart apache
+  
+ - name: Apache | Disable the default site
+   action: command /usr/sbin/a2dissite default
+   notify:
+    - restart apache
      
+ - name: Apache | Copy vhost
+   action: template src=../templates/vhosts.j2 dest=/etc/apache2/sites-available/${apache_serverName} state=file mode=0644
+   notify:
+    - restart apache
+ 
+ - name: Apache | Setup errror log 
+   action: command /usr/bin/touch ${apache_logroute}/${apache_errorlog}_error.log creates=${apache_logroute}/${apache_errorlog}_error.log 
+ 
+ - name: Apache | Setup access log 
+   action: command /usr/bin/touch ${apache_logroute}/${apache_customlog}_access.log creates=${apache_logroute}/${apache_customlog}_access.log
+ 
+ - name: Apache | Enabled our new site
+   action: command /usr/sbin/a2ensite ${apache_serverName}
+   notify:
+    - restart apache

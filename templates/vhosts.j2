@@ -1,0 +1,18 @@
+<VirtualHost {{ vhost_name }}:{{ vhost_port }}>
+     {% if apache_serverAdmin %}
+     ServerAdmin {{ apache_serverAdmin }}
+     {% endif %}
+     ServerName {{ apache_serverName }}
+     ServerAlias {{ apache_serverAlias }}
+     DocumentRoot {{ docroot }}
+     
+     <Directory {{ docroot }} >
+          Options {{ apache_options|join(', ') }}
+          AllowOverride {{ apache_override|join(', ') }}
+          Order allow,deny
+          allow from all
+     </Directory>
+     
+     ErrorLog  {{ apache_logroute }}/{{ apache_errorlog }}_error.log
+     CustomLog {{ apache_logroute }}/{{ apache_customlog }}_access.log combined
+</VirtualHost>

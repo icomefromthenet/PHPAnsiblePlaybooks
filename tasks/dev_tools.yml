@@ -1,11 +1,11 @@
 ---
 # install git and other tools
  
- - name: package update
+ - name: DevTools | Package update
    action: apt update-cache=yes
    
- - name: install git
+ - name: DevTools | Install git
    action: apt pkg=git-core state=installed
  
- - name: install byobu
+ - name: DevTools | Install byobu
    action: apt pkg=byobu state=installed

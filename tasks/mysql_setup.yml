@@ -1,36 +1,71 @@
 ---
-# Setup Mysql on server
- - name: package update
+
+ - name: MYSQL | Package update
    action: apt update-cache=yes
 
-   # Install MySQL.
- - name: install mysql from repo
+ - name: MYSQL | Install mysql from repo
    action: apt pkg=mysql-server state=installed
  
- - name: service mysql  
+ - name: MYSQL | Service mysql  
    action: service name=mysql state=started
  
- - name: install php5-mysql from repo
+ - name: MYSQL | Install php5-mysql from repo
    action: apt pkg=php5-mysql state=installed
  
- - name: install mysql-client from repo
+ - name: MYSQL | Install mysql-client from repo
    action: apt pkg=mysql-client state=installed
     
- - name: install python-mysqldb
+ - name: MYSQL | Install python-mysqldb
    action: apt pkg=python-mysqldb state=installed
 
- - name: write my.cnf 
-   action: template src='../templates/my.cnf.j2' dest='/etc/mysql/my.cnf'
+ - name: MYSQL | Write my.cnf 
+   action: template src="../templates/my.cnf.j2" dest="/etc/mysql/my.cnf"
    notify:
     - restart mysql 
+
+ - name: MySQL | Set the root password.
+   action: mysql_user user="root" password="$mysql_password" host="localhost" state="present"
+   tags: common
+
+ - name: MySQL | Config for easy access as vagrant user
+   action: template src="../templates/root-my-cnf.j2" dest="/home/vagrant/.my.cnf"
+   tags: common
+   
+ - name: MySQL | Config for easy access as root user
+   action: template src="../templates/root-my-cnf.j2" dest="/root/.my.cnf"
+   tags: common
  
- - name: Restart Mysql  before for adding 
-   action: service name=mysql state=restarted 
+ - name: MYSQL | Restart Mysql  before for adding 
+   action: service name="mysql" state="restarted" 
+  
+ - name: MySQL | Delete anonymous MySQL server user for $server_hostname
+   action: mysql_user user="" host="$server_hostname" state="absent" 
+   tags: common
  
- - name: assign password to db root
-   action: command /usr/bin/mysqladmin -u $mysql_user password $mysql_password
-   ignore_errors: True
+ - name: MySQL | Delete anonymous MySQL server user for localhost
+   action: mysql_user user="" state="absent" 
+   tags: common
+  
+ - name: MySQL | Secure the MySQL root user for IPV6 localhost (::1)
+   action: mysql_user name="root" password="$mysql_password" host="::1" state="present"
+   tags: common
+
+ - name: MySQL | Secure the MySQL root user for IPV4 localhost (127.0.0.1)
+   action: mysql_user name="root" password="$mysql_password" host="127.0.0.1" state="present"
+   tags: common
+
+ - name: MySQL | Secure the MySQL root user for localhost domain (localhost)
+   action: mysql_user name="root" password="$mysql_password" host="localhost" state="present"
+   tags: common
+
+ - name: MySQL | Secure the MySQL root user for $server_hostname domain
+   action: mysql_user name="root" password="$mysql_password" host="$server_hostname" state="present"
+   tags: common
+
+ - name: MySQL | Remove the MySQL test database
+   action: mysql_db login_user="root" login_password="$mysql_password" db=test state="absent"
+   tags: common    
  
- - name: setup schema
-   action: raw /usr/bin/mysql -h $mysql_host -u $mysql_user -p${mysql_password} <<< 'CREATE SCHEMA $mysql_schema;'
-   ignore_errors: True
+ - name: MYSQL | Setup schema
+   action: mysql_db login_user="root" login_password="$mysql_password" db="$mysql_schema" state="present"
+   

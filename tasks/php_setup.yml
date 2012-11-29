@@ -3,17 +3,17 @@
  - name: package update
    action: apt update-cache=yes
 
- - name: install curl from repo
+ - name: PHP Basic | Install curl from repo
    action: apt pkg=curl state=installed
  
- - name: install php5 from repo
+ - name: PHP Basic | Install php5 from repo
    action: apt pkg=php5 state=installed
  
- - name: install php5-cli from repo
+ - name: PHP Basic | Install php5-cli from repo
    action: apt pkg=php5-cli state=installed
 
  #php5-gd php5-gmp php5-imap php5-ldap php5-mhash php5-ming php5-odbc php5-pspell php5-snmp php5-sybase php5-tidy libwww-perl imagemagick
- - name : install php5 modules
+ - name : PHP Basic | Install php5 modules
    action: apt pkg=$item state=installed
    with_items:
     - php5-suhosin
@@ -25,15 +25,15 @@
     
 
  # which creates a symbolic link /etc/apache2/mods-enabled/php5 pointing to /etc/apache2/mods-availble/php5 incase not done. 
- - name: create symbolic link to php5 apache module 
+ - name: PHP Basic | Create symbolic link to php5 apache module 
    action: command /usr/sbin/a2enmod php5
    notify:
     - restart apache
     
- - name: copy php cli php.ini file
+ - name: PHP Basic | Copy php cli php.ini file
    action: template src=../templates/php_cli.ini.j2  dest=/etc/php5/cli/php.ini state=file mode=0644
    
- - name: copy php php.ini file
+ - name: PHP Basic | Copy php php.ini file
    action: template src=../templates/php.ini.j2  dest=/etc/php5/apache2/php.ini state=file mode=0644
  
  
