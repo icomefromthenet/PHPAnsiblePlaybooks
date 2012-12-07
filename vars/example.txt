@@ -1,4 +1,7 @@
 ---
+
+$server_hostname: "precise32"
+
 #---------------------------
 # PHP.ini variables
 # 
