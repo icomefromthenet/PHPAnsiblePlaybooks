@@ -5,23 +5,21 @@
 
  - name: PHP Basic | Install curl from repo
    action: apt pkg=curl state=installed
- 
- - name: PHP Basic | Install php5 from repo
-   action: apt pkg=php5 state=installed
- 
- - name: PHP Basic | Install php5-cli from repo
-   action: apt pkg=php5-cli state=installed
 
  #php5-gd php5-gmp php5-imap php5-ldap php5-mhash php5-ming php5-odbc php5-pspell php5-snmp php5-sybase php5-tidy libwww-perl imagemagick
  - name : PHP Basic | Install php5 modules
    action: apt pkg=$item state=installed
    with_items:
-    - php5-suhosin
-    - libapache2-mod-php5
-    - php5-curl
+    - php5
     - php-pear
+    - php5-suhosin
+    #- libapache2-mod-php5
+    - php5-curl
     - php5-sqlite
     - php5-mcrypt
+
+ - name: PHP Basic | Install php5-cli from repo
+   action: apt pkg=php5-cli state=installed
     
 
  # which creates a symbolic link /etc/apache2/mods-enabled/php5 pointing to /etc/apache2/mods-availble/php5 incase not done. 
