@@ -13,7 +13,6 @@
     - php5
     - php-pear
     - php5-suhosin
-    #- libapache2-mod-php5
     - php5-curl
     - php5-sqlite
     - php5-mcrypt
@@ -29,10 +28,10 @@
     - restart apache
     
  - name: PHP Basic | Copy php cli php.ini file
-   action: template src=../templates/php_cli.ini.j2  dest=/etc/php5/cli/php.ini state=file mode=0644
+   action: template src=../templates/php_cli.ini.j2  dest=/etc/php5/cli/php.ini mode=0644
    
  - name: PHP Basic | Copy php php.ini file
-   action: template src=../templates/php.ini.j2  dest=/etc/php5/apache2/php.ini state=file mode=0644
+   action: template src=../templates/php.ini.j2  dest=/etc/php5/apache2/php.ini mode=0644
  
  
 
