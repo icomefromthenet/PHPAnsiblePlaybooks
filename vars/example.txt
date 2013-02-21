@@ -8,7 +8,7 @@ $server_hostname: "precise32"
 
 #---------------------------
 
-php_memory_limit: "128MB"
+php_memory_limit: "128M"
 php_error_reporting: "E_ALL & ~E_DEPRECATED"
 php_display_startup_errors: On
 php_display_errors: On
