@@ -4,8 +4,11 @@
 - hosts: webserver
   user: vagrant
   sudo: True
-
+  vars_files:
+    - ../global_vars.yml
+    - ../vars/dev.yml
   tasks:
     - include: ../tasks/apache_setup.yml
+    - include: ../tasks/apache_mod_security.yml
   handlers:
     - include: ../handlers/main.yml

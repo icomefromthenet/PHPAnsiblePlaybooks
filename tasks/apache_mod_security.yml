@@ -1,50 +1,69 @@
 ---
 # install and configure apache_mod_security
 
- - name: Apache | Install libxml dependecies
+ - name: Apache Modsecurity | Install libxml dependecies
    action: apt pkg=$item state=installed
    with_items:
     - libxml2
     - libxml2-dev 
     - libxml2-utils
     
- - name: Apache | Install arpu dependecies
+ - name: Apache Modsecurity | Install arpu dependecies
    action: apt pkg=$item state=installed
    with_items:
     - libaprutil1
     - libaprutil1-dev
         
- - name: Apache | Install mod_security from repo
+ - name: Apache Modsecurity | Install mod_security from repo
    action: apt pkg=libapache-mod-security state=installed
    notify:
     - restart apache
         
- - name: Apache | Copy OWSAP rule set from sourceforge
+ - name: Apache Modsecurity | Copy OWSAP rule set from sourceforge
    action: copy src=../files/${apache_mod_security_release}.tar.gz dest=/var/tmp/${apache_mod_security_release}.tar.gz 
    
- - name: Apache | Uncompress the rule-set
+ - name: Apache Modsecurity | Uncompress the rule-set
    action: command sudo /bin/tar xz -f /var/tmp/${apache_mod_security_release}.tar.gz -C /etc/apache2/ 
  
- - name: Apache | Remove existing ruleset directory
+ - name: Apache Modsecurity | Remove existing ruleset directory
    action: file path=/etc/apache2/modsecurity-crs state=absent
    
- - name: Apache | Rename ruleset directory
+ - name: Apache Modsecurity | Rename ruleset directory
    action: command mv -f /etc/apache2/${apache_mod_security_release} /etc/apache2/modsecurity-crs creates=/etc/apache2/modsecurity-crs
    
- - name: Apache | Rename the OWSAP rule config file
+ - name: Apache Modsecurity | Rename the OWSAP rule config file
    action: command mv /etc/apache2/modsecurity-crs/modsecurity_crs_10_setup.conf.example /etc/apache2/modsecurity-crs/modsecurity_crs_10_config.conf creates=/etc/apache2/modsecurity-crs/modsecurity_crs_10_config.conf
    notify:
     - restart apache
     
- - name: Apache | Copy activate rules script to server
+ - name: Apache Modsecurity | Copy activate rules script to server
    action: copy src=../files/activate_rules.sh dest=/etc/apache2/modsecurity-crs/activate_rules.sh mode=0755 
    
- - name: Apache | Run activate rules script  
+ - name: Apache Modsecurity | Run activate rules script  
    action: command sudo /etc/apache2/modsecurity-crs/activate_rules.sh
    notify:
     - restart apache
     
- - name: Apache | Remove activate rules script
+ - name: Apache Modsecurity | Remove activate rules script
    action: file path=/etc/apache2/modsecurity-crs/activate_rules.sh state=absent
 
+ - name: Apache Modsecurity| Use included Modescurity config file
+   action: command sudo mv /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurity.conf creates=/etc/modsecurity/modsecurity.conf
+   
+ - name: Apache Modsecurity | Enable Modsecurity Engine
+   action: lineinfile dest=/etc/modsecurity/modsecurity.conf regexp='^SecRuleEngine [a-zA-Z]*' line='SecRuleEngine On' backup=yes state=present
+   notify:
+   - restart apache
+   
+ - name: Apache Modsecurity | Increase Request Limit (file uploads)
+   action: lineinfile dest=/etc/modsecurity/modsecurity.conf regexp='^SecRequestBodyLimit [0-9]*' line='SecRequestBodyLimit ${modsecurity_secrequestbodylimit}' backup=yes state=present
+   notify:
+   - restart apache
+   
+ - name: Apache Modsecurity | Increate Request in Memory Limit   
+   action: lineinfile dest=/etc/modsecurity/modsecurity.conf regexp='^SecRequestBodyInMemoryLimit [0-9]*' line='SecRequestBodyInMemoryLimit ${modsecurity_secrequestbodyinmemorylimit}' backup=yes state=present
+   notify:
+   - restart apache
     
+    
+   

@@ -56,6 +56,10 @@ apache_override : [None]
 apache_errorlog: myapp
 apache_customlog: myapp
 
+# should match php_upload_max_filesize but in bytes
+modsecurity_secrequestbodylimit : 2097152
+modsecurity_secrequestbodyinmemorylimit: 2097152
+
 
 #---------------------------
 # fail2ban
