@@ -1,0 +1,20 @@
+---
+
+# variables for the database role
+mysql_bind_address: localhost 
+
+mysql_key_buffer: "16M"
+mysql_max_allowed_packet : "16M"
+
+# user account to create and the password
+mysql_password: vagrant 
+mysql_user: root
+
+# system account to assign mysql
+mysql_system_group: mysql
+mysql_system_user : mysql
+
+# name of the schema to create
+mysql_schema: mass_stack
+
+

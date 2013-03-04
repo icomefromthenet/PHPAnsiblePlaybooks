@@ -1,0 +1,31 @@
+---
+# install apache , php and other dev tools
+
+- hosts: devweb
+  user: vagrant
+  sudo: True
+  vars_files:
+    - group_vars/webserver.yml
+    - group_vars/devweb.yml
+  tasks:
+    - include: webserver/tasks/apache_setup.yml 
+    - include: webserver/tasks/apache_mod_security.yml
+    - include: webserver/tasks/php_setup.yml
+    - include: webserver/tasks/php_pear.yml
+
+    # install apache docs
+    - name: install apache docs
+      action: apt pkg=apache2-doc state=installed
+    
+    # xdebug php extension  
+    - name: install php xdebug extension
+      action: apt pkg=php5-xdebug state=installed
+    
+    - include: devweb/tasks/php_qa.yml
+    - include: devweb/tasks/php_tools.yml
+    - include: devweb/tasks/dev_tools.yml
+    - include: devweb/tasks/css_tools.yml
+    - include: devweb/tasks/nodejs.yml
+  handlers:
+    - include: webserver/handlers/main.yml
+    - include: devweb/handlers/main.yml

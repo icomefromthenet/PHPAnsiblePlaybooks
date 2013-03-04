@@ -1,0 +1,33 @@
+---
+# install PHP Tools
+
+ - name: PHP Tools | Upgrade pear
+   action: command /usr/bin/pear upgrade PEAR
+  
+ - name: PHP Tools | Pear to use stable packages
+   action: command /usr/bin/pear config-set preferred_state stable
+ 
+ - name: PHP Tools | Discover icomefromthenet pear channel
+   action: command /usr/bin/pear channel-discover icomefromthenet.github.com/pear
+   ignore_errors: True   
+   
+ - name: PHP Tools | Discover phing pear channel
+   action: command /usr/bin/pear channel-discover pear.phing.info
+   ignore_errors: True
+   
+ - name: PHP Tools | Install phing
+   action: command /usr/bin/pear install phing/phing
+   ignore_errors: True
+   
+ - name: PHP Tools | Install pear git plugin
+   action: command /usr/bin/pear -d preferred_state=alpha install VersionControl_Git
+   ignore_errors: True
+
+ - name: PHP Tools | Install composer
+   action: get_url url=http://getcomposer.org/composer.phar dest=/usr/bin/composer.phar mode=0755
+   ignore_errors: True
+
+ - name: PHP Tools | Install pyrus.phar
+   action: get_url url=http://pear2.php.net/pyrus.phar dest=/usr/bin/pyrus.phar mode=0755
+   
+   

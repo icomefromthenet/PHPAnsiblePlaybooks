@@ -1,0 +1,27 @@
+---
+
+ - name: MYSQL | Create MYSQL User Group
+   action: group name=$mysql_system_group state=present
+
+ - name: MYSQL | Create MYSQL User Account
+   action: user name=$mysql_system_user group=$mysql_system_group comment="MySQL user account" state="present"  
+
+ - name: MYSQL | Install mysql from repo
+   action: apt pkg=mysql-server update-cache=yes state=installed
+ 
+ - name: MYSQL | Service mysql  
+   action: service name=mysql state=started
+ 
+ - name: MYSQL | Install mysql-client from repo
+   action: apt pkg=mysql-client state=installed
+    
+ - name: MYSQL | Install python-mysqldb
+   action: apt pkg=python-mysqldb state=installed
+
+ - name: MYSQL | Write my.cnf 
+   action: template src="database/templates/my.cnf.j2" dest="/etc/mysql/my.cnf"
+   notify:
+    - restart mysql 
+
+ 
+   

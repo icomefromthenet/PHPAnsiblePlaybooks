@@ -1,0 +1,5 @@
+---
+# Handlers used in in database role
+ - name: restart mysql
+   action: service name=mysql state=restarted
+  

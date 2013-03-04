@@ -1,0 +1,7 @@
+---
+# Handlers used in webserver
+ - name: restart apache
+   action: service name=apache2 state=restarted
+ 
+
+   

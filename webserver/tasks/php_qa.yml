@@ -1,0 +1,77 @@
+---
+#install php Quality Assurance tools (Phpunit)
+
+ - name: PHP QA | Upgrade pear
+   action: command /usr/bin/pear upgrade PEAR
+  
+ - name: PHP QA | Pear to use stable packages
+   action: command /usr/bin/pear config-set preferred_state stable
+
+ - name: PHP QA | Set Pear to auto discover
+   action: command /usr/bin/pear config-set auto_discover 1
+
+  
+ - name: PHP QA | Discover symfony-project pear channel
+   action: command /usr/bin/pear channel-discover pear.symfony-project.com
+   ignore_errors: True   
+
+ - name: PHP QA | Discover symfony2 pear channel
+   action: command /usr/bin/pear channel-discover pear.symfony.com
+   ignore_errors: True   
+  
+ - name: PHP QA | Disover phpunit pear channel
+   action: command /usr/bin/pear channel-discover pear.phpunit.de
+   ignore_errors: True   
+    
+ - name: PHP QA | Discover ez-components pear channel
+   action: command /usr/bin/pear channel-discover components.ez.no
+   ignore_errors: True   
+  
+ - name: PHP QA | Discover pear.pdepend.org  channel
+   action: command /usr/bin/pear channel-discover pear.pdepend.org
+   ignore_errors: True   
+  
+ - name: PHP QA | Discover pear.phpmd.org channel
+   action: command /usr/bin/pear channel-discover pear.phpmd.org
+   ignore_errors: True   
+  
+ - name : PHP QA | Install symfony yaml pear library
+   action: command /usr/bin/pear -d preferred_state=stable install symfony/YAML
+   ignore_errors: True
+  
+ - name:  PHP QA | Install phpunit
+   action: command /usr/bin/pear -d preferred_state=stable install --alldeps phpunit/PHPUnit
+   ignore_errors: True
+  
+ - name: PHP QA | Install dbunit
+   action: command /usr/bin/pear -d preferred_state=stable install --alldeps phpunit/DbUnit
+   ignore_errors: True
+  
+ - name: PHP QA | Install mockobject
+   action: command /usr/bin/pear -d preferred_state=stable install --alldeps phpunit/PHPUnit_MockObject
+   ignore_errors: True
+
+ - name: PHP QA | Install ppw
+   action: command /usr/bin/pear install --alldeps phpunit/ppw
+   ignore_errors: True
+
+ - name: PHP QA | Install phpcpd
+   action: command /usr/bin/pear install --alldeps phpunit/phpcpd
+   ignore_errors: True
+
+ - name: PHP QA | Install phploc
+   action: command /usr/bin/pear install --alldeps phpunit/phploc
+   ignore_errors: True
+
+ - name: PHP QA | Install php depend
+   action: command /usr/bin/pear install pdepend/PHP_Depend-beta
+   ignore_errors: True
+
+ - name: PHP QA | Install php pmd
+   action: command /usr/bin/pear install --alldeps phpmd/PHP_PMD
+   ignore_errors: True
+
+ - name:  PHP QA | Install php codesniffer
+   action: command /usr/bin/pear install pear/PHP_CodeSniffer
+   ignore_errors: True
+      

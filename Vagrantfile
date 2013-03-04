@@ -1,110 +1,124 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
 Vagrant::Config.run do |config|
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  # Every Vagrant virtual environment requires a box to build off of.
 
-  config.vm.box = "precise32"
+  config.vm.define :web do |web_config|
+    # Every Vagrant virtual environment requires a box to build off of.
 
-  # The url from where the 'config.vm.box' box will be fetched if it
-  # doesn't already exist on the user's system.
-  # config.vm.box_url = "http://domain.com/path/to/above.box"
+    web_config.vm.box = "precise32"
 
-  # Boot with a GUI so you can see the screen. (Default is headless)
-  #config.vm.boot_mode = :gui
-
-  # Assign this VM to a host-only network IP, allowing you to access it
-  # via the IP. Host-only networks can talk to the host machine as well as
-  # any other machines on the same network, but cannot be accessed (through this
-  # network interface) by any external networks.
-  config.vm.network :hostonly, "33.33.33.78"
-
-  # Assign this VM to a bridged network, allowing you to connect directly to a
-  # network using the host's network device. This makes the VM appear as another
-  # physical device on your network.
-  # config.vm.network :bridged
-
-  # Forward a port from the guest to the host, which allows for outside
-  # computers to access the VM, whereas host only networking does not.
-  config.vm.forward_port 80, 8080
-
-  # Share an additional folder to the guest VM. The first argument is
-  # an identifier, the second is the path on the guest to mount the
-  # folder, and the third is the path on the host to the actual folder.
-  config.vm.share_folder("v-root", "/vagrant", ".", :nfs => true)
-
-  # Enable provisioning with Puppet stand alone.  Puppet manifests
-  # are contained in a directory path relative to this Vagrantfile.
-  # You will need to create the manifests directory and a manifest in
-  # the file base.pp in the manifests_path directory.
-  #
-  # An example Puppet manifest to provision the message of the day:
-  #
-  # # group { "puppet":
-  # #   ensure => "present",
-  # # }
-  # #
-  # # File { owner => 0, group => 0, mode => 0644 }
-  # #
-  # # file { '/etc/motd':
-  # #   content => "Welcome to your Vagrant-built virtual machine!
-  # #               Managed by Puppet.\n"
-  # # }
-  #
-  # config.vm.provision :puppet do |puppet|
-  #   puppet.manifests_path = "manifests"
-  #   puppet.manifest_file  = "base.pp"
-  # end
+    # The url from where the 'config.vm.box' box will be fetched if it
+    # doesn't already exist on the user's system.
+    # config.vm.box_url = "http://domain.com/path/to/above.box"
   
-  # Provision with Assimble plugin
-  config.vm.provision :ansible do |ansible|
-    # point Vagrant at the location of your playbook you want to run
-    ansible.playbook = "acme/dev.yml"
+    # Boot with a GUI so you can see the screen. (Default is headless)
+    #config.vm.boot_mode = :gui
+  
+    # Assign this VM to a host-only network IP, allowing you to access it
+    # via the IP. Host-only networks can talk to the host machine as well as
+    # any other machines on the same network, but cannot be accessed (through this
+    # network interface) by any external networks.
+    web_config.vm.network :hostonly, "192.168.1.1"
+ 
+    # Forward a port from the guest to the host, which allows for outside
+    # computers to access the VM, whereas host only networking does not.
+    web_config.vm.forward_port 80, 8080
 
-    # the Vagrant VM will be put in this host group change this should
-    # match the host group in your playbook you want to test
-    ansible.hosts = "webserver"
+    # Share an additional folder to the guest VM. The first argument is
+    # an identifier, the second is the path on the guest to mount the
+    # folder, and the third is the path on the host to the actual folder.
+    web_config.vm.share_folder("v-root", "/vagrant", ".", :nfs => true)
+
+    # Provision with Assimble plugin
+    web_config.vm.provision :ansible do |ansible|
+      # point Vagrant at the location of your playbook you want to run
+      ansible.playbook = "webserver.yml"
+  
+      # the Vagrant VM will be put in this host group change this should
+      # match the host group in your playbook you want to test
+      ansible.hosts = "webserver"
+    end
   end
 
-  # Enable provisioning with chef solo, specifying a cookbooks path, roles
-  # path, and data_bags path (all relative to this Vagrantfile), and adding 
-  # some recipes and/or roles.
-  #
-  # config.vm.provision :chef_solo do |chef|
-  #   chef.cookbooks_path = "../my-recipes/cookbooks"
-  #   chef.roles_path = "../my-recipes/roles"
-  #   chef.data_bags_path = "../my-recipes/data_bags"
-  #   chef.add_recipe "mysql"
-  #   chef.add_role "web"
-  #
-  #   # You may also specify custom JSON attributes:
-  #   chef.json = { :mysql_password => "foo" }
-  # end
+  config.vm.define :devweb do |devweb_config|
+    # Every Vagrant virtual environment requires a box to build off of.
+    devweb_config.vm.box = "precise32"
+    devweb_config.vm.host_name = "devweb1.testing.com"
+    
+    # The url from where the 'config.vm.box' box will be fetched if it
+    # doesn't already exist on the user's system.
+    # config.vm.box_url = "http://domain.com/path/to/above.box"
+  
+    # Boot with a GUI so you can see the screen. (Default is headless)
+    #config.vm.boot_mode = :gui
+  
+    # Assign this VM to a host-only network IP, allowing you to access it
+    # via the IP. Host-only networks can talk to the host machine as well as
+    # any other machines on the same network, but cannot be accessed (through this
+    # network interface) by any external networks.
+    devweb_config.vm.network :hostonly, "192.168.1.2"
+ 
+    # Forward a port from the guest to the host, which allows for outside
+    # computers to access the VM, whereas host only networking does not.
+    devweb_config.vm.forward_port 80, 8080
 
-  # Enable provisioning with chef server, specifying the chef server URL,
-  # and the path to the validation key (relative to this Vagrantfile).
-  #
-  # The Opscode Platform uses HTTPS. Substitute your organization for
-  # ORGNAME in the URL and validation key.
-  #
-  # If you have your own Chef Server, use the appropriate URL, which may be
-  # HTTP instead of HTTPS depending on your configuration. Also change the
-  # validation key to validation.pem.
-  #
-  # config.vm.provision :chef_client do |chef|
-  #   chef.chef_server_url = "https://api.opscode.com/organizations/ORGNAME"
-  #   chef.validation_key_path = "ORGNAME-validator.pem"
-  # end
-  #
-  # If you're using the Opscode platform, your validator client is
-  # ORGNAME-validator, replacing ORGNAME with your organization name.
-  #
-  # IF you have your own Chef Server, the default validation client name is
-  # chef-validator, unless you changed the configuration.
-  #
-  #   chef.validation_client_name = "ORGNAME-validator"
+    # Share an additional folder to the guest VM. The first argument is
+    # an identifier, the second is the path on the guest to mount the
+    # folder, and the third is the path on the host to the actual folder.
+    devweb_config.vm.share_folder("v-root", "/vagrant", ".", :nfs => false)
+
+    # Provision with Assimble plugin
+    devweb_config.vm.provision :ansible do |ansible|
+      # point Vagrant at the location of your playbook you want to run
+      ansible.playbook = "devweb.yml"
+  
+      # the Vagrant VM will be put in this host group change this should
+      # match the host group in your playbook you want to test
+      ansible.hosts = "devweb"
+    end
+  end
+
+
+  config.vm.define :db do |db_config|
+    # Every Vagrant virtual environment requires a box to build off of.
+
+    db_config.vm.box = "precise32"
+    db_config.vm.host_name = "db1.testing.com"
+
+    # The url from where the 'config.vm.box' box will be fetched if it
+    # doesn't already exist on the user's system.
+    # config.vm.box_url = "http://domain.com/path/to/above.box"
+  
+    # Boot with a GUI so you can see the screen. (Default is headless)
+    #config.vm.boot_mode = :gui
+  
+    # Assign this VM to a host-only network IP, allowing you to access it
+    # via the IP. Host-only networks can talk to the host machine as well as
+    # any other machines on the same network, but cannot be accessed (through this
+    # network interface) by any external networks.
+    db_config.vm.network :hostonly, "192.168.1.3"
+ 
+    # Forward a port from the guest to the host, which allows for outside
+    # computers to access the VM, whereas host only networking does not.
+    db_config.vm.forward_port 3306, 8306
+
+    # Share an additional folder to the guest VM. The first argument is
+    # an identifier, the second is the path on the guest to mount the
+    # folder, and the third is the path on the host to the actual folder.
+    #db_config.vm.share_folder("v-root", "/vagrant", ".", :nfs => true)
+
+    # Provision with Assimble plugin
+    db_config.vm.provision :ansible do |ansible|
+      # point Vagrant at the location of your playbook you want to run
+      ansible.playbook = "database.yml"
+  
+      # the Vagrant VM will be put in this host group change this should
+      # match the host group in your playbook you want to test
+      ansible.hosts = "database"
+    end
+  end
 end
+
+
