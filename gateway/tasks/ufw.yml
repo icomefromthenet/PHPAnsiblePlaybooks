@@ -1,0 +1,49 @@
+---
+
+ # secure /etc/services
+ - name: ufw | secure /etc/services
+   file: path=/etc/services owner=root group=root mode=0644
+ 
+ - name: ufw | make /etc/services immutable
+   command: /usr/bin/chattr +i /etc/services
+
+ - name: ufw | disable firewall before apply new routes
+   command: /usr/sbin/ufw disable
+
+ - name: ufw | copy before.rules config
+   template: src=gateway/templates/ufw/before.rules dest=/etc/ufw/before.rules owner=root group=root mode=0644
+ 
+ - name: ufw | copy after.rules config
+   copy: src=gateway/files/ufw/after.rules dest=/etc/ufw/after.rules owner=root group=root mode=0644  
+ 
+ - name: ufw | copy ufw default
+   copy: src=gateway/files/ufw/ufw dest=/etc/default/ufw owner=root group=root mode=0644
+ 
+ - name: ufw | copy sysctl.conf
+   copy: src=gateway/files/ufw/sysctl.conf dest=/etc/ufw/sysctl.conf owner=root group=root mode=0644
+ 
+ # add custom rules
+ - name: ufw | open ssh ports
+   command: /usr/sbin/ufw allow ssh
+ 
+ - name: ufw | open DNS nameserver
+   command: /usr/sbin/ufw allow nameserver  
+    
+ - name: ufw | open ntp
+   command: /usr/sbin/ufw allow ntp
+ 
+ - name: ufw | open https
+   command: /usr/sbin/ufw allow https
+ 
+ - name: ufw | open http
+   command: /usr/sbin/ufw allow http
+   
+ - name: ufw | open NFS
+   command: /usr/sbin/ufw allow nfs
+
+ - name: ufw | copy config
+   copy: src=gateway/files/ufw/ufw.conf dest=/etc/ufw/ufw.conf owner=root group=root mode=0644
+
+ - name: start ufw
+   command: /usr/sbin/ufw --force enable
+  

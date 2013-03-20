@@ -1,0 +1,4 @@
+---
+ - name: start ufw
+   command: /usr/sbin/ufw --force enable
+  

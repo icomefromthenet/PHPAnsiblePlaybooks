@@ -1,0 +1,18 @@
+---
+# Setups a gateway or Bastion Server
+
+- hosts: gateway
+  user: vagrant
+  sudo: True
+  vars_files:
+    - group_vars/gateway.yml
+  tasks:
+    #- include: gateway/tasks/fail2ban.yml
+    #- include: gateway/tasks/openssh.yml
+    - include: gateway/tasks/ufw.yml
+    
+  handlers:
+    - include: gateway/handlers/fail2ban.yml
+    - include: gateway/handlers/openssh.yml
+    
+    

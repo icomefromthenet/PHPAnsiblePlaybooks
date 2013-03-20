@@ -1,6 +1,9 @@
 ---
 # install mysql and setup account
 
+# load basic host node settings
+- include: host.yml
+
 - hosts: database
   user: vagrant
   sudo: True

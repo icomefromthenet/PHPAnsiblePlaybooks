@@ -1,0 +1,4 @@
+---
+# handler for the ufw tasks
+ - name: reload ufw
+   command: /usr/sbin/ufw reload

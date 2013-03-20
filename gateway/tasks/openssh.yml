@@ -1,0 +1,29 @@
+---
+- name: Openssh | Install package $item
+  action: apt pkg=$item state=installed update_cache=yes
+  with_items:
+    - openssh-client
+    - openssh-server
+  notify:
+    - restart sshd
+
+- name: Openssh | Manage ssh_config
+  action: copy src=$file dest=/etc/ssh/ssh_config
+          owner=root group=root mode=0644 backup=yes
+  first_available_file:
+    - gateway/files/openssh/ssh_config.$ansible_distribution
+    - gateway/files/openssh/ssh_config
+  notify:
+    - restart sshd
+
+- name: Openssh | Manage sshd_config
+  action: copy src=$file dest=/etc/ssh/sshd_config
+          owner=root group=root mode=0600 backup=yes
+  first_available_file:
+    - gateway/files/openssh/sshd_config.$ansible_distribution
+    - gateway/files/openssh/sshd_config
+  notify:
+    - restart sshd
+
+- name: Openssh | Ensure sshd is running
+  action: service name=ssh state=running

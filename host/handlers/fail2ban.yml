@@ -1,0 +1,5 @@
+---
+# Handlers used in this app
+ - name: restart fail2ban
+   action: command /etc/init.d/fail2ban restart
+   

@@ -1,6 +1,9 @@
 ---
 # install apache , php and other dev tools
 
+# load basic host node settings
+- include: host.yml
+
 - hosts: webserver
   user: vagrant
   sudo: True
@@ -13,3 +16,4 @@
     - include: webserver/tasks/php_pear.yml
   handlers:
     - include: webserver/handlers/main.yml
+   
