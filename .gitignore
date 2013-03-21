@@ -1,2 +1,3 @@
-vars/dev.yml
-vars/live.yml
+group_vars/*.yml
+.vagrant
+

@@ -31,14 +31,14 @@ vhost_port: 80
 docroot: /vagrant/web/
 apache_logroute : /var/log/apache2
 # server admin can be left empty
-apache_serverAdmin: admin@icomefromthenet.com
-apache_serverName: laterjob
-apache_serverAlias:  laterjob
+apache_serverAdmin: genericmail@generic.com
+apache_serverName: generic
+apache_serverAlias:  generic
 apache_options : [ALL]
 apache_override : [None]
 # Only need a name the extension is added inside the temmplate
-apache_errorlog: laterjob
-apache_customlog: laterjob
+apache_errorlog: myapp
+apache_customlog: myapp
 
 # should match php_upload_max_filesize but in bytes
 modsecurity_secrequestbodylimit : 2097152

@@ -64,7 +64,7 @@ Vagrant::Config.run do |config|
     devweb_config.vm.host_name = "devweb1.testing.com"
     devweb_config.vm.network :hostonly, "192.168.1.2"
     devweb_config.vm.forward_port 80, 8080
-    devweb_config.vm.share_folder("v-root", "/vagrant", ".", :nfs => false)
+    devweb_config.vm.share_folder("v-root", "/vagrant", "../", :nfs => false)
     devweb_config.vm.provision :ansible do |ansible|
       ansible.playbook = "devteir.yml"
       ansible.hosts = ["appserver","appdatabase","devserver"]

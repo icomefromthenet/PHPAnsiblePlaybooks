@@ -12,5 +12,5 @@ system_time_zone : Australia/Sydney
 
 fail2ban_log_level: 3
 fail2ban_log_file : /var/log/fail2ban.log
-fail2ban_destemail: getintouch@icomefromthenet.com
+fail2ban_destemail: "generic@generic.com"
 fail2ban_ignoreip : 127.0.0.1
