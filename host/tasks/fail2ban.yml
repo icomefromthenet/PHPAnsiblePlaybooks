@@ -5,12 +5,12 @@
    action: apt pkg=fail2ban state=installed
    
  - name: Fail2Ban | Copy fail2ban jail.conf config file
-   action: template src=host/templates/fail2ban/jail.conf.j2 dest=/etc/fail2ban/jail.conf mode=0644
+   action: template src=templates/fail2ban/jail.conf.j2 dest=/etc/fail2ban/jail.conf mode=0644
    notify:
     - restart fail2ban
     
  - name: Fail2Ban | Copy fail2ban config file
-   action: template src=host/templates/fail2ban/fail2ban.conf.j2 dest=/etc/fail2ban/fail2ban.conf mode=0644
+   action: template src=templates/fail2ban/fail2ban.conf.j2 dest=/etc/fail2ban/fail2ban.conf mode=0644
    notify:
     - restart fail2ban 
   

@@ -1,0 +1,18 @@
+---
+# Setups a secure node with ssh config and ufw to configure firewall and fail2ban to catch failed login attempts
+
+- hosts: all
+  user: vagrant
+  sudo: True
+  vars_files:
+    - ../group_vars/host.yml
+  tasks:
+    - include: ../host/tasks/timezone.yml
+    - include: ../host/tasks/fail2ban.yml
+    - include: ../host/tasks/openssh.yml
+    #- include: ../host/tasks/ufw.yml
+  handlers:
+    - include: ../host/handlers/fail2ban.yml
+    - include: ../host/handlers/openssh.yml
+    #- include: ../host/handlers/ufw.yml
+    

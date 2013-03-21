@@ -1,0 +1,24 @@
+---
+# install dev tools and basic database
+
+- hosts: appserver
+  user: vagrant
+  sudo: True
+  vars_files:
+    - ../group_vars/devweb.yml
+  tasks:
+    # install apache docs
+    - name: install apache docs
+      action: apt pkg=apache2-doc state=installed
+    
+    # xdebug php extension  
+    - name: install php xdebug extension
+      action: apt pkg=php5-xdebug state=installed
+    
+    - include: ../devweb/tasks/php_qa.yml
+    - include: ../devweb/tasks/php_tools.yml
+    - include: ../devweb/tasks/dev_tools.yml
+    - include: ../devweb/tasks/css_tools.yml
+    - include: ../devweb/tasks/nodejs.yml
+  handlers:
+    - include: ../devweb/handlers/main.yml

@@ -1,0 +1,16 @@
+---
+# install apache , php and other dev tools
+
+- hosts: appserver
+  user: vagrant
+  sudo: True
+  vars_files:
+    - ../group_vars/webserver.yml
+  tasks:
+    - include: ../webserver/tasks/apache_setup.yml 
+    - include: ../webserver/tasks/apache_mod_security.yml
+    - include: ../webserver/tasks/php_setup.yml
+    - include: ../webserver/tasks/php_pear.yml
+  handlers:
+    - include: ../webserver/handlers/main.yml
+   

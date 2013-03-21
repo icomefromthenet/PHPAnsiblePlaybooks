@@ -1,0 +1,14 @@
+---
+# install mysql and setup account
+
+- hosts: appdatabase
+  user: vagrant
+  sudo: True
+  vars_files:
+    - ../group_vars/database.yml
+  tasks:
+    - include: ../database/tasks/install.yml current_user=vagrant
+    - include: ../database/tasks/secure.yml current_user=vagrant
+    - include: ../database/tasks/schema.yml current_user=vagrant
+  handlers:
+    - include: ../database/handlers/main.yml

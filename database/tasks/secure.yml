@@ -6,7 +6,7 @@
    tags: database
 
  - name: MySQL | Config for easy access for root user
-   action: template src="database/templates/root-my-cnf.j2" dest="/root/.my.cnf"
+   action: template src="templates/root-my-cnf.j2" dest="/root/.my.cnf"
    tags: database
    notify:
     - restart mysql 

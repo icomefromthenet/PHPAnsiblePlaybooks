@@ -8,9 +8,13 @@
 #   - You can enter hostnames or ip addresses
 #   - A hostname/ip can be a member of multiple groups
 
-[webservers]
+[devweb:appdatabase:appserver]
 devweb1.testing.com
 
-[dbservers]
+[devweb]
+
+[appserver]
+
+[appdatabase]
 db1.testing.com
 

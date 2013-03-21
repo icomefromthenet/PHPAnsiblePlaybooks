@@ -11,16 +11,16 @@
    command: /usr/sbin/ufw disable
 
  - name: ufw | copy before.rules config
-   template: src=gateway/templates/ufw/before.rules dest=/etc/ufw/before.rules owner=root group=root mode=0644
+   template: src=templates/ufw/before.rules dest=/etc/ufw/before.rules owner=root group=root mode=0644
  
  - name: ufw | copy after.rules config
-   copy: src=gateway/files/ufw/after.rules dest=/etc/ufw/after.rules owner=root group=root mode=0644  
+   copy: src=files/ufw/after.rules dest=/etc/ufw/after.rules owner=root group=root mode=0644  
  
  - name: ufw | copy ufw default
-   copy: src=gateway/files/ufw/ufw dest=/etc/default/ufw owner=root group=root mode=0644
+   copy: src=files/ufw/ufw dest=/etc/default/ufw owner=root group=root mode=0644
  
  - name: ufw | copy sysctl.conf
-   copy: src=gateway/files/ufw/sysctl.conf dest=/etc/ufw/sysctl.conf owner=root group=root mode=0644
+   copy: src=files/ufw/sysctl.conf dest=/etc/ufw/sysctl.conf owner=root group=root mode=0644
  
  # add custom rules
  - name: ufw | open ssh ports
@@ -45,7 +45,7 @@
    command: /usr/sbin/ufw allow domain 
 
  - name: ufw | copy config
-   copy: src=gateway/files/ufw/ufw.conf dest=/etc/ufw/ufw.conf owner=root group=root mode=0644
+   copy: src=files/ufw/ufw.conf dest=/etc/ufw/ufw.conf owner=root group=root mode=0644
    notify:
     - start ufw
  

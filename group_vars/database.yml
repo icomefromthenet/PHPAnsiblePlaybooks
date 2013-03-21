@@ -15,6 +15,6 @@ mysql_system_group: mysql
 mysql_system_user : mysql
 
 # name of the schema to create
-mysql_schema: mass_stack
+mysql_schema: later_job
 
 

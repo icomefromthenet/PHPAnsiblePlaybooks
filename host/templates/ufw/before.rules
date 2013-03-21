@@ -25,7 +25,17 @@
 
 # quickly process packets for which we already have a connection
 -A ufw-before-input -m state --state RELATED,ESTABLISHED -j ACCEPT
--A ufw-before-output -m state --state RELATED,ESTABLISHED -j ACCEPT
+#-A ufw-before-output -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+
+# allow established packets in output 
+-A ufw-before-output -p tcp -m state --state ESTABLISHED,RELATED -j ACCEPT
+-A ufw-before-output -p udp -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# ntp output and DNS
+-A ufw-before-output -m owner --uid-owner ntp -p udp -m multiport --dport 53,123 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+-A ufw-before-output -m owner --uid-owner root -p udp -m multiport --dport 53,123 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+
 
 
 # allow outbound echo icmp

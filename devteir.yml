@@ -1,0 +1,6 @@
+---
+# setup our devservers 
+- include: host/host.yml
+- include: webserver/webserver.yml
+- include: database/database.yml
+- include: devweb/devweb.yml

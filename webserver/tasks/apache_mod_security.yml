@@ -20,7 +20,7 @@
     - restart apache
         
  - name: Apache Modsecurity | Copy OWSAP rule set from sourceforge
-   action: copy src=webserver/files/${apache_mod_security_release}.tar.gz dest=/var/tmp/${apache_mod_security_release}.tar.gz 
+   action: copy src=files/${apache_mod_security_release}.tar.gz dest=/var/tmp/${apache_mod_security_release}.tar.gz 
    
  - name: Apache Modsecurity | Uncompress the rule-set
    action: command sudo /bin/tar xz -f /var/tmp/${apache_mod_security_release}.tar.gz -C /etc/apache2/ 
@@ -37,7 +37,7 @@
     - restart apache
     
  - name: Apache Modsecurity | Copy activate rules script to server
-   action: copy src=webserver/files/activate_rules.sh dest=/etc/apache2/modsecurity-crs/activate_rules.sh mode=0755 
+   action: copy src=files/activate_rules.sh dest=/etc/apache2/modsecurity-crs/activate_rules.sh mode=0755 
    
  - name: Apache Modsecurity | Run activate rules script  
    action: command sudo /etc/apache2/modsecurity-crs/activate_rules.sh

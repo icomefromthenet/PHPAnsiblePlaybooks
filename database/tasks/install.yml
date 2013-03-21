@@ -19,7 +19,7 @@
    action: apt pkg=python-mysqldb state=installed
 
  - name: MYSQL | Write my.cnf 
-   action: template src="database/templates/my.cnf.j2" dest="/etc/mysql/my.cnf"
+   action: template src="templates/my.cnf.j2" dest="/etc/mysql/my.cnf"
    notify:
     - restart mysql 
 

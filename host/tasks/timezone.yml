@@ -1,0 +1,4 @@
+---
+
+ - name: Host | Set the Timezone
+   command: ln -sf /usr/share/zoneinfo/${system_time_zone} /etc/localtime
