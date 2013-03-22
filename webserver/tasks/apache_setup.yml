@@ -2,6 +2,13 @@
  ##
  # Apache2 setup.
  #
+ 
+ - name: Apache | setup group
+   action: group name=www-data system=no state=present 
+
+ - name : Apache | setup user
+   action: user name=www-data group=www-data createhome=no state=present
+ 
  - name: Apache | Install 
    action: apt pkg=apache2 state=installed update_cache=yes
    notify:

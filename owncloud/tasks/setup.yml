@@ -1,0 +1,69 @@
+---
+##
+# Setup Owncloud for development
+#
+
+- name: Owncoud | Install smbclient
+  action: apt pkg=smbclient state=installed force=yes
+
+- name: Owncloud | Set tmp dir permissions on web root for install
+  action: command chmod o+rw  ${docroot}
+  tags: owncloud
+
+- name: Owncloud | Install Core Repo to /var/www
+  action: git repo=https://github.com/owncloud/core.git dest=${docroot}/owncloud
+  tags: owncloud
+
+- name: Owncloud | Install App Repo to /var/www
+  action: git repo=https://github.com/owncloud/apps.git dest=${docroot}/apps
+  tags: owncloud
+   
+- name: Owncloud | Install 3rdparty Repo to /var/www
+  action: git repo=https://github.com/owncloud/3rdparty.git dest=${docroot}/3rdparty
+  tags: owncloud
+  
+- name: remove submodule 3rdparty from core
+  action: command /bin/rm -rf ${docroot}/owncloud/3rdparty  
+  
+- name: link 3rdparty repo to core
+  action: file src=${docroot}/3rdparty dest=${docroot}/owncloud/3rdparty state=link 
+
+- name: Owncloud | Copy Autoconfig
+  action: template src=templates/owncloud.j2 dest=$docroot/owncloud/config/autoconfig.php owner=www-data group=www-data mode=0644 
+  tags: owncloud  
+
+- name: Owncloud | Setup Data Dir
+  action: command /bin/mkdir ${docroot}/owncloud/data creates=${docroot}/owncloud/data
+
+- name: Owncloud | Remove install dir permissions
+  action: command chmod -R o-rw ${docroot}
+  tags: owncloud
+
+- name: Owncloud | Set Directry owner on data
+  action: command chown -R www-data:www-data ${docroot}/owncloud/data
+  tags: owncloud
+
+- name: Owncloud | Set Directry opermissions on data
+  action: command chmod 0750 ${docroot}/owncloud/data
+  tags: owncloud
+
+- name: Owncloud | Set Directry owner on config
+  action: command chown -R www-data:www-data ${docroot}/owncloud/config
+  tags: owncloud
+
+- name: Owncloud | Set Directry permissions on config
+  action: command chmod 0777 ${docroot}/owncloud/config
+  tags: owncloud
+
+- name: Owncloud | Set Directry owner on apps
+  action: command chown -R www-data:www-data ${docroot}/owncloud/apps
+  tags: owncloud
+
+- name: Owncloud | Set Directry permissions on webroot
+  action: command chown -R www-data:www-data ${docroot}
+  tags: owncloud
+
+    
+- name: Owncloud | add vagrant user to
+  action: command usermod -a -G www-data vagrant
+  tags: owncloud

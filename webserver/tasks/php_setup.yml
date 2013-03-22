@@ -13,6 +13,7 @@
     - php5-curl
     - php5-sqlite
     - php5-mcrypt
+    - php5-gd
 
  - name: PHP Basic | Install php5-cli from repo
    action: apt pkg=php5-cli state=installed

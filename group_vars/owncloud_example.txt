@@ -1,0 +1,32 @@
+---
+
+#--------------
+# DB details
+#--------------
+
+owncloud_db_type: dbtype
+owncloud_db_name: owncloud
+owncloud_db_host: localhost
+owncloud_db_user: root 
+owncloud_db_password: vagrant
+owncloud_db_tableprefix : oc_
+
+#--------------
+# admin account and password salt
+#--------------
+
+owncloud_admin_name : admin
+owncloud_admin_password : admin
+owncloud_password_salt: 3538f93b555abf118d02b4b23d829b
+
+
+#--------------
+# Log details
+#
+# Place to log to, can be owncloud and syslog (owncloud is log menu item in admin menu)
+# File for the owncloud logger to log to, (default is ownloud.log in the data dir
+# Loglevel to start logging at. 0=DEBUG, 1=INFO, 2=WARN, 3=ERROR (default is WARN) 
+#--------------
+owncloud_log_type : owncloud
+owncloud_log_file : 
+owncloud_log_level: 0

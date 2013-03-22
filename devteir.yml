@@ -4,3 +4,4 @@
 - include: webserver/webserver.yml
 - include: database/database.yml
 - include: devweb/devweb.yml
+- include: owncloud/owncloud.yml

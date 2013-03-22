@@ -1,0 +1,22 @@
+---
+# install owncloud on webserver
+
+- hosts: cloudserver
+  user: vagrant
+  sudo: True
+  vars:
+    docroot:  /var/www
+    app_name: ownFinance
+  vars_files:
+     - ../group_vars/owncloud.yml
+  tasks:
+     - name: Owncloud | Install git
+       action: apt pkg=git-core state=installed
+     
+     - include: ../owncloud/tasks/setup.yml
+     
+     - name : Owncloud | link vagrant dir to app folder 
+       action: file src=/vagrant dest=/var/www/apps/${app_name} state=link
+     
+     - name : Owncloud | link to owncloud app dir to appfolder
+       action: file src=/var/www/apps/${app_name} dest=/var/www/owncloud/apps/${app_name} state=link 

@@ -70,6 +70,22 @@ Vagrant::Config.run do |config|
       ansible.hosts = ["appserver","appdatabase","devserver"]
     end
   end
+  
+  
+  config.vm.define :devcloud do |devcloud_config|
+
+    devcloud_config.vm.box = "precise32"
+    devcloud_config.vm.host_name = "cloudserver.testing.com"
+    devcloud_config.vm.network :hostonly, "192.168.1.4"
+    devcloud_config.vm.forward_port 80, 8080
+    devcloud_config.vm.share_folder("v-root", "/vagrant", "../", :nfs => false)
+    devcloud_config.vm.provision :ansible do |ansible|
+      ansible.playbook = "devteir.yml"
+      #ansible.hosts = ["appserver","appdatabase","devserver","cloudserver"]
+      ansible.hosts = "cloudserver"
+    end
+  end
+
 
 
   config.vm.define :db do |db_config|
