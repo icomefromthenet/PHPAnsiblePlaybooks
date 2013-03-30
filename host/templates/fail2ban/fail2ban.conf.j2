@@ -15,14 +15,14 @@
 #          4 = DEBUG
 # Values:  NUM  Default:  3
 #
-loglevel = {fail2ban_log_level}
+loglevel = {{fail2ban_log_level}}
 
 # Option:  logtarget
 # Notes.:  Set the log target. This could be a file, SYSLOG, STDERR or STDOUT.
 #          Only one log target can be specified.
 # Values:  STDOUT STDERR SYSLOG file  Default:  /var/log/fail2ban.log
 #
-logtarget = {fail2ban_log_file}
+logtarget = {{fail2ban_log_file}}
 
 # Option: socket
 # Notes.: Set the socket file. This is used to communicate with the daemon. Do
